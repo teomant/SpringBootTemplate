@@ -15,12 +15,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.teomant.anotherlearningproject.controllers.forms.RegistrationForm;
 import org.teomant.anotherlearningproject.controllers.forms.validators.RegistrationValidator;
 import org.teomant.anotherlearningproject.entities.UserEntity;
-import org.teomant.anotherlearningproject.schedulers.Something;
+import org.teomant.anotherlearningproject.game.Fight;
+import org.teomant.anotherlearningproject.game.Fighter;
+import org.teomant.anotherlearningproject.game.Server;
+import org.teomant.anotherlearningproject.schedulers.TestScheduler;
 import org.teomant.anotherlearningproject.services.RoleService;
 import org.teomant.anotherlearningproject.services.UserService;
 
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Random;
 
 @Controller
 public class MainController {
@@ -29,7 +33,10 @@ public class MainController {
     private RegistrationValidator registrationValidator;
 
     @Autowired
-    private Something something;
+    private TestScheduler testScheduler;
+
+    @Autowired
+    private Server server;
 
     @ModelAttribute( "registrationForm" )
     public RegistrationForm registrationForm(){
@@ -45,6 +52,17 @@ public class MainController {
     public String index(Model model) {
 
         model.addAttribute("message", "test");
+
+        for (int i = 0; i < 3; i++) {
+            Random random = new Random();
+            Fighter fighterOne = new Fighter("First" + i, random.nextInt(5), random.nextInt(5), random.nextInt(5));
+            Fighter fighterTwo = new Fighter("Second" + i, random.nextInt(5), random.nextInt(5), random.nextInt(5));
+            Fight fight = new Fight(fighterOne, fighterTwo);
+            server.addFight(fight);
+            if (server.inFight(fighterOne)) {
+                System.out.println(server.fightWithFighter(fighterOne).get());
+            }
+        }
 
         return "index";
     }

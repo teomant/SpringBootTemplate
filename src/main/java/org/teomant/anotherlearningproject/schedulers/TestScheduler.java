@@ -5,10 +5,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Something {
+public class TestScheduler {
 
-    @Scheduled(fixedRate = 10000)
-    void doSomething() {
-        System.out.println("testing schedulers");
-    }
+//    @Scheduled(fixedRate = 10000)
+//    void doSomething() {
+//        System.out.println("testing schedulers");
+//    }
 }
