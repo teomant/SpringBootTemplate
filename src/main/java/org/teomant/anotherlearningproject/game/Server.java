@@ -34,11 +34,11 @@ public class Server {
         fights.remove(fight);
     }
 
-    public boolean inFight(Fighter fighter) {
-        return fights.stream().anyMatch(f -> f.inThisFight(fighter));
+    public boolean inFight(FighterEntity fighterEntity) {
+        return fights.stream().anyMatch(f -> f.inThisFight(fighterEntity));
     }
 
-    public Optional<Fight> fightWithFighter(Fighter fighter) {
-        return fights.stream().filter(f -> f.inThisFight(fighter)).findFirst();
+    public Optional<Fight> fightWithFighter(FighterEntity fighterEntity) {
+        return fights.stream().filter(f -> f.inThisFight(fighterEntity)).findFirst();
     }
 }

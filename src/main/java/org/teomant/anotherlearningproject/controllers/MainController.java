@@ -15,16 +15,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.teomant.anotherlearningproject.controllers.forms.RegistrationForm;
 import org.teomant.anotherlearningproject.controllers.forms.validators.RegistrationValidator;
 import org.teomant.anotherlearningproject.entities.UserEntity;
-import org.teomant.anotherlearningproject.game.Fight;
-import org.teomant.anotherlearningproject.game.Fighter;
+import org.teomant.anotherlearningproject.game.FighterEntity;
 import org.teomant.anotherlearningproject.game.Server;
+import org.teomant.anotherlearningproject.repositories.FighterRepository;
 import org.teomant.anotherlearningproject.schedulers.TestScheduler;
+import org.teomant.anotherlearningproject.services.FighterService;
 import org.teomant.anotherlearningproject.services.RoleService;
 import org.teomant.anotherlearningproject.services.UserService;
 
 import java.security.Principal;
 import java.util.Arrays;
-import java.util.Random;
 
 @Controller
 public class MainController {
@@ -37,6 +37,9 @@ public class MainController {
 
     @Autowired
     private Server server;
+
+    @Autowired
+    private FighterService fighterService;
 
     @ModelAttribute( "registrationForm" )
     public RegistrationForm registrationForm(){
@@ -53,16 +56,23 @@ public class MainController {
 
         model.addAttribute("message", "test");
 
-        for (int i = 0; i < 3; i++) {
-            Random random = new Random();
-            Fighter fighterOne = new Fighter("First" + i, random.nextInt(5), random.nextInt(5), random.nextInt(5));
-            Fighter fighterTwo = new Fighter("Second" + i, random.nextInt(5), random.nextInt(5), random.nextInt(5));
-            Fight fight = new Fight(fighterOne, fighterTwo);
-            server.addFight(fight);
-            if (server.inFight(fighterOne)) {
-                System.out.println(server.fightWithFighter(fighterOne).get());
-            }
+//        for (int i = 0; i < 3; i++) {
+//            Random random = new Random();
+//            FighterEntity fighterOne = new FighterEntity("First" + i, 1 + random.nextInt(5), 1 + random.nextInt(5), 1 + random.nextInt(5));
+//            FighterEntity fighterTwo = new FighterEntity("Second" + i, 1 + random.nextInt(5), 1 + random.nextInt(5), 1 + random.nextInt(5));
+//            Fight fight = new Fight(fighterOne, fighterTwo);
+//            fight.addAction(new RegenAction(fighterOne,random.nextInt(5), fight));
+//            fight.addAction(new SpellDamageAction(fighterTwo, fighterOne));
+//            server.addFight(fight);
+//            if (server.inFight(fighterOne)) {
+//                System.out.println(server.fightWithFighter(fighterOne).get());
+//            }
+//        }
+
+        if (fighterService.findByUser(userService.findById(1l)) == null) {
+            fighterService.save(new FighterEntity("test", 5, 5, 5));
         }
+        System.out.println(fighterService.findByUser(userService.findById(1l)));
 
         return "index";
     }

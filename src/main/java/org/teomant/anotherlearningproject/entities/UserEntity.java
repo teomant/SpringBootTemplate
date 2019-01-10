@@ -4,6 +4,7 @@ package org.teomant.anotherlearningproject.entities;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.teomant.anotherlearningproject.game.FighterEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public class UserEntity {
     @Column(name = "enabled", nullable = false)
     private Integer enabled;
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    private FighterEntity fighterEntity;
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -46,6 +50,7 @@ public class UserEntity {
                 ", username='" + username + '\'' +
                 ", password=<censored>" +
                 ", roles=" + roles.stream().map(RoleEntity::getRoleName).collect(Collectors.toList()).toString() +
+                ", fighterEntity=" + fighterEntity.toString() +
                 '}';
     }
 }
