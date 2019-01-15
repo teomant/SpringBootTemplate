@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Enemies</title>
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<table border="1">
+    <tr>
+        <th>
+            Name: <span th:utext="${from.username}"></span></br>
+        </th>
+        <th>
+            <span th:each = "message : ${messages}">
+                <span th:utext = "${message.from.username}"></span> (<span th:utext = "${message.time}"></span>)</br>
+                <span th:utext = "${message.text}"></span></br>
+            </span>
+        </th>
+        <th>
+            Name: <span th:utext="${to.username}"></span></br>
+        </th>
+    </tr>
+    <form th:action="@{/message(fromId=${from.id},toId=${to.id})}" method="POST">
+    <tr>
+        <td>Message</td>
+        <td><input type="text" name="messageText" /></td>
+        <td><button type="submit" name="submit" value="value" class="link-button">send</button></td>
+    </tr>
+    </form>
+</table>
+
+</body>
+
+</html>

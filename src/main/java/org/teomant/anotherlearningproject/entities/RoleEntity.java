@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of ={"id", "roleName"})
 @Entity
 @Table(name = "app_role")
 public class RoleEntity {

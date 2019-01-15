@@ -7,24 +7,24 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.teomant.anotherlearningproject.controllers.forms.RegistrationForm;
 import org.teomant.anotherlearningproject.controllers.forms.validators.RegistrationValidator;
+import org.teomant.anotherlearningproject.entities.MessageEntity;
 import org.teomant.anotherlearningproject.entities.UserEntity;
 import org.teomant.anotherlearningproject.game.FighterEntity;
 import org.teomant.anotherlearningproject.game.Server;
 import org.teomant.anotherlearningproject.repositories.FighterRepository;
 import org.teomant.anotherlearningproject.schedulers.TestScheduler;
 import org.teomant.anotherlearningproject.services.FighterService;
+import org.teomant.anotherlearningproject.services.MessageService;
 import org.teomant.anotherlearningproject.services.RoleService;
 import org.teomant.anotherlearningproject.services.UserService;
 
 import java.security.Principal;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -34,6 +34,9 @@ public class MainController {
 
     @Autowired
     private FighterService fighterService;
+
+    @Autowired
+    private MessageService messageService;
 
     @ModelAttribute( "registrationForm" )
     public RegistrationForm registrationForm(){
@@ -173,5 +176,37 @@ public class MainController {
     public String startTask(Model model, Principal principal) {
 
         return "schedulePage";
+    }
+
+    @RequestMapping(value = "/chatWith", method = RequestMethod.GET)
+    public String chatPage(Model model, Principal principal, @RequestParam(name = "id") long toId) {
+
+        UserEntity from = userService.findUserByUsername(principal.getName());
+        UserEntity to = userService.findById(toId);
+        List<MessageEntity> messages = new ArrayList<>();
+
+        messages.addAll(messageService.findByUser(from));
+        messages.addAll(messageService.findByUser(to));
+
+        model.addAttribute("from", from);
+        model.addAttribute("to", to);
+        model.addAttribute("messages", messages.stream()
+                .sorted(Comparator.comparing(MessageEntity::getTime)).collect(Collectors.toList()));
+
+        return "chatPage";
+    }
+
+    @RequestMapping(value = "/message", method = RequestMethod.POST)
+    public String postMessage(Model model, @RequestParam("fromId") long fromId,
+                              @RequestParam("toId") long toId,
+                              @RequestParam("messageText") String messageText) {
+        MessageEntity messageEntity = new MessageEntity();
+        messageEntity.setFrom(userService.findById(fromId));
+        messageEntity.setTo(userService.findById(toId));
+
+        messageEntity.setTime(new Date());
+        messageEntity.setText(messageText);
+        messageService.save(messageEntity);
+        return "redirect:/chatWith?id="+toId;
     }
 }

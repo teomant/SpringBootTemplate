@@ -53,6 +53,12 @@ public class UserEntity {
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private FighterEntity fighterEntity;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "from")
+    private List<MessageEntity> sentMessages;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "to")
+    private List<MessageEntity> receivedMessages;
+
     @Override
     public String toString() {
         return "UserEntity{" +
