@@ -9,4 +9,6 @@ import org.teomant.anotherlearningproject.game.FighterEntity;
 public interface FighterRepository extends JpaRepository<FighterEntity, Long> {
 
     public FighterEntity findByUser(UserEntity userEntity);
+
+    public FighterEntity findByName(String name);
 }

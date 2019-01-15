@@ -9,12 +9,13 @@ import org.teomant.anotherlearningproject.game.FighterEntity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"id", "username"})
 @Table(name = "app_user")
 public class UserEntity {
 
@@ -37,6 +38,15 @@ public class UserEntity {
                     @JoinColumn( name = "role_id", referencedColumnName = "role_id" ) } )
     private List<RoleEntity> roles = new ArrayList<>();
 
+    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    protected Set<UserEntity> friends;
+
+    @ManyToMany(mappedBy = "friends")
+    protected Set<UserEntity> befriended;
+
     @Column(name = "enabled", nullable = false)
     private Integer enabled;
 
@@ -50,7 +60,9 @@ public class UserEntity {
                 ", username='" + username + '\'' +
                 ", password=<censored>" +
                 ", roles=" + roles.stream().map(RoleEntity::getRoleName).collect(Collectors.toList()).toString() +
-                ", fighterEntity=" + fighterEntity.toString() +
+                ", fighter=" + (fighterEntity != null ? fighterEntity.toString() : "none") +
+                ", friends=" + (friends != null ? friends.toString() : "unknown") +
                 '}';
     }
+
 }

@@ -33,12 +33,6 @@ public class MainController {
     private RegistrationValidator registrationValidator;
 
     @Autowired
-    private TestScheduler testScheduler;
-
-    @Autowired
-    private Server server;
-
-    @Autowired
     private FighterService fighterService;
 
     @ModelAttribute( "registrationForm" )
@@ -55,24 +49,6 @@ public class MainController {
     public String index(Model model) {
 
         model.addAttribute("message", "test");
-
-//        for (int i = 0; i < 3; i++) {
-//            Random random = new Random();
-//            FighterEntity fighterOne = new FighterEntity("First" + i, 1 + random.nextInt(5), 1 + random.nextInt(5), 1 + random.nextInt(5));
-//            FighterEntity fighterTwo = new FighterEntity("Second" + i, 1 + random.nextInt(5), 1 + random.nextInt(5), 1 + random.nextInt(5));
-//            Fight fight = new Fight(fighterOne, fighterTwo);
-//            fight.addAction(new RegenAction(fighterOne,random.nextInt(5), fight));
-//            fight.addAction(new SpellDamageAction(fighterTwo, fighterOne));
-//            server.addFight(fight);
-//            if (server.inFight(fighterOne)) {
-//                System.out.println(server.fightWithFighter(fighterOne).get());
-//            }
-//        }
-
-        if (fighterService.findByUser(userService.findById(1l)) == null) {
-            fighterService.save(new FighterEntity("test", 5, 5, 5));
-        }
-        System.out.println(fighterService.findByUser(userService.findById(1l)));
 
         return "index";
     }
@@ -168,8 +144,6 @@ public class MainController {
     public String userInfo(Model model, Principal principal) {
 
         String userName = principal.getName();
-
-        System.out.println("User Name: " + userName);
 
         UserEntity user = userService.findUserByUsername(principal.getName());
 

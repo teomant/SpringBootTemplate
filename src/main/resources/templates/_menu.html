@@ -9,6 +9,8 @@
 
     <a th:if="${#request.userPrincipal != null}" th:href="@{/admin}">Admin</a>
 
+    <a th:if="${#request.userPrincipal != null}" th:href="@{/fight}">Fight</a>
+
     <a th:if="${#request.userPrincipal == null}" th:href="@{/register}">Registration</a>
 
     <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>

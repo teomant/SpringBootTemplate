@@ -7,11 +7,14 @@ import org.teomant.anotherlearningproject.game.FighterEntity;
 import org.teomant.anotherlearningproject.repositories.FighterRepository;
 import org.teomant.anotherlearningproject.services.FighterService;
 
+import java.util.List;
+
 @Service
 public class FighterServiceImpl implements FighterService {
 
     @Autowired
     FighterRepository fighterRepository;
+
     @Override
     public FighterEntity save(FighterEntity fighterEntity) {
         return fighterRepository.save(fighterEntity);
@@ -21,4 +24,15 @@ public class FighterServiceImpl implements FighterService {
     public FighterEntity findByUser(UserEntity userEntity) {
         return fighterRepository.findByUser(userEntity);
     }
+
+    @Override
+    public FighterEntity findByName(String name) {
+        return fighterRepository.findByName(name);
+    }
+
+    @Override
+    public List<FighterEntity> getAll() {
+        return fighterRepository.findAll();
+    }
+
 }

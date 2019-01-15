@@ -10,6 +10,7 @@ import org.teomant.anotherlearningproject.services.UserService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,6 +40,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Set<UserEntity> findFriends(UserEntity userEntity) {
+        return userRepository.findByBefriendedContaining(userEntity);
     }
 
     @Transactional(readOnly = true)

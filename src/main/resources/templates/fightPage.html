@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Enemies</title>
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<table border="1">
+    <tr>
+        <th>You</th>
+        <th>Fight information</th>
+        <th>Enemy</th>
+    </tr>
+
+    <tr>
+        <th>
+            Name: <span th:utext="${yourFighter.name}"></span></br>
+            Strength: <span th:utext="${yourFighter.strength}"></span></br>
+            Agility: <span th:utext="${yourFighter.agility}"></span></br>
+            Mind: <span th:utext="${yourFighter.mind}"></span></br>
+            HP: <span th:utext="${yourFighter.hp}"></span></br>
+        </th>
+        <th>
+            <span th:utext="${fightLog.replace('&#10;','&lt;br&gt;')}"></span>
+        </th>
+        <th>
+            Name: <span th:utext="${enemyFighter.name}"></span></br>
+            Strength: <span th:utext="${enemyFighter.strength}"></span></br>
+            Agility: <span th:utext="${enemyFighter.agility}"></span></br>
+            Mind: <span th:utext="${enemyFighter.mind}"></span></br>
+            HP: <span th:utext="${enemyFighter.hp}"></span></br>
+        </th>
+    </tr>
+</table>
+
+</body>
+
+</html>

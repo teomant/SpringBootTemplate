@@ -1,5 +1,6 @@
 package org.teomant.anotherlearningproject.game;
 
+import lombok.Getter;
 import lombok.ToString;
 import org.teomant.anotherlearningproject.game.actions.Action;
 
@@ -7,6 +8,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @ToString
 public class Fight {
+
+    @Getter
+    String fightLog ="";
 
     public Fight(FighterEntity fighterEntityOne, FighterEntity fighterEntityTwo) {
         this.fighterEntityOne = fighterEntityOne;
@@ -25,8 +29,8 @@ public class Fight {
 
     public void tick() {
         if (status == Status.STARTED) {
-            System.out.println(fighterEntityOne.getName() + " and " + fighterEntityTwo.getName()
-                    + " begin thier fight!");
+            fightLog += fighterEntityOne.getName() + " and " + fighterEntityTwo.getName()
+                    + " begin thier fight!\n";
             fighterEntityOne.setHp(fighterEntityOne.getMaxHp());
             fighterEntityTwo.setHp(fighterEntityTwo.getMaxHp());
             status = Status.IN_PROGRESS;
@@ -35,13 +39,13 @@ public class Fight {
         if (status == Status.IN_PROGRESS) {
 
             for (Action action : actionsList) {
-                action.execute();
+                fightLog += fightLog + action.execute() + '\n';
                 actionsList.remove(action);
             }
 
-            System.out.println(fighterEntityOne.getName() + "(" + fighterEntityOne.getHp() + ")-"
+            fightLog += fighterEntityOne.getName() + "(" + fighterEntityOne.getHp() + ")-"
                     + fighterEntityTwo.getName() + "(" + fighterEntityTwo.getHp() + "): "
-                    + fighterEntityOne.getDamage() + "-" + fighterEntityTwo.getDamage());
+                    + fighterEntityOne.getDamage() + "-" + fighterEntityTwo.getDamage() + '\n';
 
             fighterEntityOne.setHp(fighterEntityOne.getHp()- fighterEntityTwo.getDamage());
             fighterEntityTwo.setHp(fighterEntityTwo.getHp()- fighterEntityOne.getDamage());
@@ -52,14 +56,14 @@ public class Fight {
         }
         if (status == Status.RESULT) {
             if (fighterEntityOne.getHp() < 1 && fighterEntityTwo.getHp() < 1) {
-                System.out.println(fighterEntityOne.getName() + "-"
-                        + fighterEntityTwo.getName() + ": TIE");
+                fightLog += fighterEntityOne.getName() + "-"
+                        + fighterEntityTwo.getName() + ": TIE\n";
             } else if (fighterEntityOne.getHp() < 1) {
-                System.out.println(fighterEntityOne.getName() + "-"
-                        + fighterEntityTwo.getName() + ": " + fighterEntityTwo.getName() + " WIN");
+                fightLog += fighterEntityOne.getName() + "-"
+                        + fighterEntityTwo.getName() + ": " + fighterEntityTwo.getName() + " WIN\n";
             } else {
-                System.out.println(fighterEntityOne.getName() + "-"
-                        + fighterEntityTwo.getName() + ": " + fighterEntityOne.getName() + " WIN");
+                fightLog += fighterEntityOne.getName() + "-"
+                        + fighterEntityTwo.getName() + ": " + fighterEntityOne.getName() + " WIN\n";
             }
             status = Status.COMPLITED;
         }
@@ -79,6 +83,18 @@ public class Fight {
             return fighterEntityOne;
         }
     }
+
+    public FighterEntity getThisFighter(FighterEntity fighterEntity) {
+        if (!inThisFight(fighterEntity)) {
+            return null;
+        }
+        if (fighterEntityOne.equals(fighterEntity)) {
+            return fighterEntityOne;
+        } else {
+            return fighterEntityTwo;
+        }
+    }
+
 
     public void addAction (Action action) {
         actionsList.add(action);

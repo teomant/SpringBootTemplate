@@ -6,10 +6,11 @@ import lombok.Setter;
 import org.teomant.anotherlearningproject.entities.UserEntity;
 
 import javax.persistence.*;
+import java.util.Random;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id, name, user")
 @Entity
 @Table(name = "fighters")
 public class FighterEntity {
@@ -55,6 +56,10 @@ public class FighterEntity {
     }
 
     public int getDamage() {
+        Random random = new Random();
+        if (random.nextInt(100) > 100 * (1 - 1 / 2 / mind)) {
+            return 0;
+        }
         return (int)(1.5 * (3 + (1 + strength) * (3.5 - 3 / (agility + 1))));
     }
 

@@ -18,13 +18,13 @@ public class RegenAction implements Action {
 
 
     @Override
-    public void execute() {
-        System.out.println("Healing " + fighterEntity.getName() + " for " + fighterEntity.getMind()/10 * 5 + 3);
+    public String execute() {
         fighterEntity.setHp(fighterEntity.getHp() + (fighterEntity.getMind() * 2 + 3));
         if (fighterEntity.getHp() > fighterEntity.getMaxHp()) {
             fighterEntity.setHp(fighterEntity.getMaxHp());
         }
         counter--;
         fight.addAction(new RegenAction(fighterEntity, counter, fight));
+        return "Healing " + fighterEntity.getName() + " for " + fighterEntity.getMind()/10 * 5 + 3;
     }
 }

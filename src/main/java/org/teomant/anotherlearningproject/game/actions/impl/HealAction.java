@@ -12,11 +12,11 @@ public class HealAction implements Action {
     }
 
     @Override
-    public void execute() {
-        System.out.println("Healing " + fighterEntity.getName() + " for " + fighterEntity.getMind()/10 * 30 + 15);
+    public String execute() {
         fighterEntity.setHp(fighterEntity.getHp() + (fighterEntity.getMind()/10 * 30 + 15));
         if (fighterEntity.getHp() > fighterEntity.getMaxHp()) {
             fighterEntity.setHp(fighterEntity.getMaxHp());
         }
+        return "Healing " + fighterEntity.getName() + " for " + fighterEntity.getMind()/10 * 30 + 15;
     }
 }

@@ -14,10 +14,11 @@ public class SpellDamageAction implements Action {
     }
 
     @Override
-    public void execute() {
-
-        System.out.println("Damaging " + fighterEntityTwo.getName() + " for " + fighterEntityOne.getMind() * 15 / fighterEntityTwo.getMind());
+    public String execute() {
 
         fighterEntityTwo.setHp(fighterEntityTwo.getHp() - fighterEntityOne.getMind() * 15 / fighterEntityTwo.getMind());
+
+        return "Damaging " + fighterEntityTwo.getName() + " for "
+                + fighterEntityOne.getMind() * 15 / fighterEntityTwo.getMind();
     }
 }

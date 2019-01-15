@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Enemies</title>
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>strange</th>
+        <th>agility</th>
+        <th>mind</th>
+        <th>Select</th>
+    </tr>
+    <tr th:each ="enemy : ${enemies}">
+        <td th:utext="${enemy.name}">...</td>
+        <td th:utext="${enemy.strength}">...</td>
+        <td th:utext="${enemy.agility}">...</td>
+        <td th:utext="${enemy.mind}">...</td>
+        <td>
+            <form method="POST" th:action="@{/fight(enemy_id=${enemy.user.id})}">
+                <button type="submit" name="submit" value="value" class="link-button">FIGHT!</button>
+            </form>
+        </td>
+        <td>
+            <form method="POST" th:action="@{/friend(enemy_id=${enemy.user.id})}">
+                <button type="submit" name="submit" value="value" class="link-button">FRIEND!</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:utext="${title}"></title>
+    <style>
+         th, td {
+         padding: 5px;
+         }
+         td span  {
+         font-size:90%;
+         font-style: italic;
+         color: red;
+         }
+         .error {
+         color: red;
+         font-style: italic;
+         }
+      </style>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+
+<h2>Creating fighter</h2>
+
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="error">...</div>
+
+<form th:action="@{/createFigter}" th:object="${fighterCreationForm}" method="POST">
+    <table>
+        <tr>
+            <td>Fighter Name</td>
+            <td><input type="text" th:field="*{name}" /></td>
+            <td>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Fighter strength</td>
+            <td><input type="text" th:field="*{strength}" /></td>
+            <td>
+                <span th:if="${#fields.hasErrors('strength')}" th:errors="*{strength}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Fighter agility</td>
+            <td><input type="text" th:field="*{agility}" /></td>
+            <td>
+                <span th:if="${#fields.hasErrors('agility')}" th:errors="*{agility}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Fighter mind</td>
+            <td><input type="text" th:field="*{mind}" /></td>
+            <td>
+                <span th:if="${#fields.hasErrors('mind')}" th:errors="*{mind}">..</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <input type="submit" value="Submit" />
+                <a th:href="@{/}">Cancel</a>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

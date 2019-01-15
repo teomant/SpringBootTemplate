@@ -4,6 +4,7 @@ import org.teomant.anotherlearningproject.entities.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserService {
 
@@ -11,5 +12,6 @@ public interface UserService {
     UserEntity findUserByUsername(String username);
     UserEntity save(UserEntity userEntity);
     List<UserEntity> findAll();
+    Set<UserEntity> findFriends(UserEntity userEntity);
     UserEntity findById(Long id);
 }
