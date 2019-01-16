@@ -1,13 +1,15 @@
 package org.teomant.anotherlearningproject.game.actions.impl;
 
+import org.teomant.anotherlearningproject.entities.UserEntity;
 import org.teomant.anotherlearningproject.game.FighterEntity;
 import org.teomant.anotherlearningproject.game.actions.Action;
 
-public class HealAction implements Action {
+public class HealAction extends Action {
 
     FighterEntity fighterEntity;
 
-    public HealAction(FighterEntity fighterEntity) {
+    public HealAction(UserEntity userEntity, FighterEntity fighterEntity) {
+        super(userEntity);
         this.fighterEntity = fighterEntity;
     }
 

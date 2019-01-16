@@ -15,6 +15,7 @@ import org.teomant.anotherlearningproject.entities.UserEntity;
 import org.teomant.anotherlearningproject.game.Fight;
 import org.teomant.anotherlearningproject.game.FighterEntity;
 import org.teomant.anotherlearningproject.game.Server;
+import org.teomant.anotherlearningproject.game.actions.impl.SpellDamageAction;
 import org.teomant.anotherlearningproject.services.FighterService;
 import org.teomant.anotherlearningproject.services.UserService;
 
@@ -72,7 +73,7 @@ public class GameController {
         fighterEntity.setStrength(Integer.parseInt(fighterCreationForm.getStrength()));
         fighterEntity.setAgility(Integer.parseInt(fighterCreationForm.getAgility()));
         fighterEntity.setMind(Integer.parseInt(fighterCreationForm.getMind()));
-        fighterEntity.setUser(userService.findUserByUsername(principal.getName()));
+        fighterEntity.setUser(getUserByUsername(principal));
 
         fighterService.save(fighterEntity);
 
@@ -83,8 +84,9 @@ public class GameController {
     public String searchForFight(Model model, Principal principal) {
 
         List<FighterEntity> enemies = fighterService.getAll();
-        enemies.remove(fighterService.findByUser(userService.findUserByUsername(principal.getName())));
+        enemies.remove(fighterService.findByUser(getUserByUsername(principal)));
 
+        model.addAttribute("friends",userService.findFriends(getUserByUsername(principal)));
         model.addAttribute("enemies", enemies);
 
         return "selectEnemyPage";
@@ -93,7 +95,7 @@ public class GameController {
     @RequestMapping(value = "/fight", method = RequestMethod.POST)
     public String startFight(Model model, @RequestParam("enemy_id") long enemyId, Principal principal) {
 
-        server.addFight(new Fight(fighterService.findByUser(userService.findUserByUsername(principal.getName()))
+        server.addFight(new Fight(fighterService.findByUser(getUserByUsername(principal))
                 ,fighterService.findByUser(userService.findById(enemyId))));
 
         return "redirect:/currentFight";
@@ -102,7 +104,7 @@ public class GameController {
     @RequestMapping(value = "/friend", method = RequestMethod.POST)
     public String addFriend(Model model, @RequestParam("enemy_id") long enemyId, Principal principal) {
 
-        UserEntity user = userService.findUserByUsername(principal.getName());
+        UserEntity user = getUserByUsername(principal);
         user.setFriends(userService.findFriends(user));
 
         user.getFriends().add(userService.findById(enemyId));
@@ -115,7 +117,7 @@ public class GameController {
     @RequestMapping(value = "/currentFight", method = RequestMethod.GET)
     public String currentFight(Model model, Principal principal) {
 
-        FighterEntity userFighter = userService.findUserByUsername(principal.getName()).getFighterEntity();
+        FighterEntity userFighter = getUserByUsername(principal).getFighterEntity();
         System.out.println(server.inFight(userFighter));
         if (!server.inFight(userFighter)) {
             return "redirect:/userInfo";
@@ -128,6 +130,20 @@ public class GameController {
         model.addAttribute("fightLog", fight.getFightLog());
 
         return "fightPage";
+    }
+
+    @RequestMapping(value = "/currentFightThrowSpell", method = RequestMethod.POST)
+    public String throwSpell(Model model,Principal principal) {
+
+        FighterEntity userFighter = fighterService.findByUser(getUserByUsername(principal));
+        Fight fight = server.fightWithFighter(userFighter).get();
+
+        fight.addAction(new SpellDamageAction(getUserByUsername(principal),userFighter, fight.getAnotherFighter(userFighter)));
+        return "redirect:/currentFight";
+    }
+
+    private UserEntity getUserByUsername(Principal principal) {
+        return userService.findUserByUsername(principal.getName());
     }
 
 }

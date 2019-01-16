@@ -1,6 +1,16 @@
 package org.teomant.anotherlearningproject.game.actions;
 
-public interface Action {
+import lombok.Getter;
+import org.teomant.anotherlearningproject.entities.UserEntity;
 
-    public String execute();
+public abstract class Action {
+
+    @Getter
+    private final UserEntity user;
+
+    public Action(UserEntity userEntity) {
+        user = userEntity;
+    }
+
+    public abstract String execute();
 }

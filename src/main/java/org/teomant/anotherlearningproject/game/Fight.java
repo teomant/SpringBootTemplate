@@ -2,9 +2,11 @@ package org.teomant.anotherlearningproject.game;
 
 import lombok.Getter;
 import lombok.ToString;
+import org.teomant.anotherlearningproject.entities.UserEntity;
 import org.teomant.anotherlearningproject.game.actions.Action;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 @ToString
 public class Fight {
@@ -97,7 +99,13 @@ public class Fight {
 
 
     public void addAction (Action action) {
-        actionsList.add(action);
+        if (!userPlanSomeAction(action.getUser())) {
+            actionsList.add(action);
+        }
+    }
+
+    public boolean userPlanSomeAction(UserEntity userEntity) {
+        return this.actionsList.stream().map(Action::getUser).collect(Collectors.toSet()).contains(userEntity);
     }
 
 }
