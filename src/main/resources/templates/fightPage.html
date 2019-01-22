@@ -34,9 +34,14 @@
             HP: <span th:utext="${enemyFighter.hp}"></span></br>
         </th>
     </tr>
-    <form th:action="@{/currentFightThrowSpell}" method="POST">
+    <form th:action="@{/currentFight/ThrowSpell}" method="POST">
         <tr>
             <td><button type="submit" name="submit" value="value" class="link-button">THROW SPELL</button></td>
+        </tr>
+    </form>
+    <form th:action="@{/currentFight/ThrowRegen}" method="POST">
+        <tr>
+            <td><button type="submit" name="submit" value="value" class="link-button">REGEN</button></td>
         </tr>
     </form>
 </table>

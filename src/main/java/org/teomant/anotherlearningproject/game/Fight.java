@@ -41,7 +41,7 @@ public class Fight {
         if (status == Status.IN_PROGRESS) {
 
             for (Action action : actionsList) {
-                fightLog += fightLog + action.execute() + '\n';
+                fightLog += action.execute() + '\n';
                 actionsList.remove(action);
             }
 

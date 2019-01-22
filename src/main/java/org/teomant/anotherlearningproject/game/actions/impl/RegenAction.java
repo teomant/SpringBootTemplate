@@ -26,7 +26,7 @@ public class RegenAction extends Action {
             fighterEntity.setHp(fighterEntity.getMaxHp());
         }
         counter--;
-        fight.addAction(new RegenAction(getUser(), fighterEntity, counter, fight));
+        fight.addAction(new RegenAction(null, fighterEntity, counter, fight));
         return "Healing " + fighterEntity.getName() + " for " + fighterEntity.getMind()/10 * 5 + 3;
     }
 }

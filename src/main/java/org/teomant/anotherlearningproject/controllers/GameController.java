@@ -15,6 +15,7 @@ import org.teomant.anotherlearningproject.entities.UserEntity;
 import org.teomant.anotherlearningproject.game.Fight;
 import org.teomant.anotherlearningproject.game.FighterEntity;
 import org.teomant.anotherlearningproject.game.Server;
+import org.teomant.anotherlearningproject.game.actions.impl.RegenAction;
 import org.teomant.anotherlearningproject.game.actions.impl.SpellDamageAction;
 import org.teomant.anotherlearningproject.services.FighterService;
 import org.teomant.anotherlearningproject.services.UserService;
@@ -132,13 +133,23 @@ public class GameController {
         return "fightPage";
     }
 
-    @RequestMapping(value = "/currentFightThrowSpell", method = RequestMethod.POST)
+    @RequestMapping(value = "/currentFight/ThrowSpell", method = RequestMethod.POST)
     public String throwSpell(Model model,Principal principal) {
 
         FighterEntity userFighter = fighterService.findByUser(getUserByUsername(principal));
         Fight fight = server.fightWithFighter(userFighter).get();
 
         fight.addAction(new SpellDamageAction(getUserByUsername(principal),userFighter, fight.getAnotherFighter(userFighter)));
+        return "redirect:/currentFight";
+    }
+
+    @RequestMapping(value = "/currentFight/ThrowRegen", method = RequestMethod.POST)
+    public String throwRegen(Model model,Principal principal) {
+
+        FighterEntity userFighter = fighterService.findByUser(getUserByUsername(principal));
+        Fight fight = server.fightWithFighter(userFighter).get();
+
+        fight.addAction(new RegenAction(getUserByUsername(principal), userFighter, 5, fight));
         return "redirect:/currentFight";
     }
 

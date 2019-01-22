@@ -10,7 +10,7 @@ import java.util.Random;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id, name, user")
+@EqualsAndHashCode(of = {"id", "name", "user"})
 @Entity
 @Table(name = "fighters")
 public class FighterEntity {
