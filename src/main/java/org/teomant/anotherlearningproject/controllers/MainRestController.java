@@ -30,10 +30,11 @@ public class MainRestController {
     public UserEntity apiTest(Model model, Principal principal) {
 
         UserEntity userEntity = userService.findUserByUsername(principal.getName());
-        userEntity.setPassword("<censored>");
         List<RoleEntity> roles = roleService.getRolesByUser(userEntity);
         roles.forEach(roleEntity -> roleEntity.setUsers(Collections.emptyList()));
         userEntity.setRoles(roles);
         return userEntity;
     }
+
+
 }

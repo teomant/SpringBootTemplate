@@ -1,6 +1,7 @@
 package org.teomant.anotherlearningproject.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class UserEntity {
     @Column(name = "user_name", nullable = false)
     private String username;
 
+    @JsonIgnore
     @Column(name = "encryted_password", nullable = false)
     private String password;
 

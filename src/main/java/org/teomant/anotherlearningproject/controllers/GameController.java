@@ -9,7 +9,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.teomant.anotherlearningproject.controllers.forms.FighterCreationForm;
-import org.teomant.anotherlearningproject.controllers.forms.RegistrationForm;
 import org.teomant.anotherlearningproject.controllers.forms.validators.FighterCreationValidator;
 import org.teomant.anotherlearningproject.entities.UserEntity;
 import org.teomant.anotherlearningproject.game.Fight;
