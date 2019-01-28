@@ -45,7 +45,8 @@ public class TestIntercepter implements HandlerInterceptor {
         if (request.getUserPrincipal() != null
                 && server.inFight(userService
                 .findUserByUsername(request.getUserPrincipal().getName()).getFighterEntity())
-                && !request.getRequestURI().contains("/currentFight")) {
+                && !( request.getRequestURI().contains("/currentFight")
+                || request.getRequestURI().contains("/api"))) {
             response.sendRedirect(request.getContextPath() + "/currentFight");
             return false;
         }

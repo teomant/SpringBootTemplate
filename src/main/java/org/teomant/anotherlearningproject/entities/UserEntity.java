@@ -2,6 +2,7 @@ package org.teomant.anotherlearningproject.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Entity
 @EqualsAndHashCode(of = {"id", "username"})
 @Table(name = "app_user")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserEntity {
 
     @Id

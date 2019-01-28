@@ -1,5 +1,6 @@
 package org.teomant.anotherlearningproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of ={"id", "roleName"})
 @Entity
 @Table(name = "app_role")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoleEntity {
 
     @Id

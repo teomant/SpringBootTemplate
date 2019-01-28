@@ -30,4 +30,8 @@ public class RoleServiceImpl implements RoleService {
     public RoleEntity getUserRole() {
         return roleRepository.findByRoleName("ROLE_USER");
     }
+
+    public RoleEntity getAdminRole() {
+        return roleRepository.findByRoleName("ROLE_ADMIN");
+    }
 }

@@ -1,5 +1,8 @@
 package org.teomant.anotherlearningproject.game;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +16,7 @@ import java.util.Random;
 @EqualsAndHashCode(of = {"id", "name", "user"})
 @Entity
 @Table(name = "fighters")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FighterEntity {
 
     @Id

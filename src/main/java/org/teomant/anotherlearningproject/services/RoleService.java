@@ -10,5 +10,6 @@ public interface RoleService {
     RoleEntity save(RoleEntity roleEntity);
     List<RoleEntity> getRolesByUser(UserEntity userEntity);
     RoleEntity getUserRole();
+    RoleEntity getAdminRole();
 
 }
